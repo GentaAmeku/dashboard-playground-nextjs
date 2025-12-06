@@ -59,8 +59,15 @@ pnpm install
 
 Cursorを使用している場合は、カスタムコマンドを利用できます：
 
-`/db-setup` を指定すると、データベースのマイグレーションとシードデータの投入を自動的に実行します。詳細は [`.cursor/commands/db-setup.md`](.cursor/commands/db-setup.md) を参照してください。
-データベースの再セットアップも可能です。
+**プロジェクト全体の初期セットアップ**には、次のカスタムコマンドが利用できます：
+
+- `/init`  
+  依存関係のインストール、データベースのセットアップ、開発サーバーの起動までの流れをガイドします。  
+  詳細は [`.cursor/commands/init.md`](.cursor/commands/init.md) を参照してください。
+
+- `/db-setup`  
+  データベースのセットアップを行います（開発環境向け）。  
+  詳細は [`.cursor/commands/db-setup.md`](.cursor/commands/db-setup.md) を参照してください。データベースの再セットアップも可能です。
 
 #### 🔧 手動でセットアップする場合
 
