@@ -15,18 +15,17 @@ https://github.com/user-attachments/assets/8913f6a4-5766-44fd-b5e2-3e2d35e1465f
 
 ### フロントエンド
 
-- **Next.js 16** - React フレームワーク（App Router）
-- **React 19** - UI ライブラリ
-- **TypeScript** - 型安全性
-- **Tailwind CSS 4** - スタイリング
-- **shadcn/ui** - UI コンポーネントライブラリ
-- **Radix UI** - アクセシブルなUIプリミティブ
+- **Next.js 16**
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS 4**
+- **shadcn/ui**
 
 ### バックエンド・データベース
 
-- **Drizzle ORM** - 型安全なORM
+- **Drizzle ORM** - ORM
 - **SQLite (better-sqlite3)** - データベース
-- **Zod** - スキーマバリデーション
+- **Zod** - バリデーション
 
 ### 状態管理・フォーム
 
@@ -39,7 +38,6 @@ https://github.com/user-attachments/assets/8913f6a4-5766-44fd-b5e2-3e2d35e1465f
 - **Biome** - リンター・フォーマッター
 - **Drizzle Kit** - データベースマイグレーション
 - **Lefthook** - Git フック管理
-- **tsx** - TypeScript実行環境
 
 ## 🚀 セットアップ手順
 
@@ -53,41 +51,6 @@ https://github.com/user-attachments/assets/8913f6a4-5766-44fd-b5e2-3e2d35e1465f
 ```bash
 pnpm install
 ```
-
-> **⚠️ 重要: better-sqlite3 のセットアップ**
-> 
-> better-sqlite3 はネイティブモジュール（C++バインディング）を含むため、インストール後に追加のセットアップが必要です。
-> 
-> **pnpm を使用している場合**
-> 
-> 以下のコマンドを実行：
-> 
-> ```bash
-> pnpm rebuild better-sqlite3
-> ```
-> 
-> **npm/yarn/bun を使用している場合**
-> 
-> 追加のセットアップは不要です。
-> 
-> **トラブルシューティング**
-> 
-> `db:push` や `db:migrate` 実行時に以下のようなエラーが出る場合：
-> ```
-> Error: Could not locate the bindings file
-> ```
-> 
-> 以下を実行してください：
-> ```bash
-> # node_modulesとロックファイルを削除
-> rm -rf node_modules pnpm-lock.yaml
-> 
-> # 再インストール
-> pnpm install
-> 
-> # better-sqlite3をリビルド
-> pnpm rebuild better-sqlite3
-> ```
 
 ### 2️⃣ データベースのセットアップ
 
@@ -103,7 +66,7 @@ Cursorを使用している場合は、カスタムコマンドを利用でき�
 **方法A: `db:push`を使用（開発環境推奨）**
 
 ```bash
-# 既存データベースをリセットする場合（オプション）
+# 既存データベースをリセットする場合 初回は不要（オプション）
 rm -f local.db local.db-shm local.db-wal
 
 # データベースの作成とシードデータの投入
@@ -161,36 +124,4 @@ dashboard-playground-nextjs/
 │   └── utils.ts           # ユーティリティ関数
 ├── drizzle/               # マイグレーションファイル
 └── scripts/               # スクリプト（シードなど）
-```
-
-## 🔧 よくある問題と解決方法
-
-### better-sqlite3 関連のエラー
-
-**問題**: `Could not locate the bindings file` エラー
-
-**解決方法**:
-```bash
-pnpm rebuild better-sqlite3
-```
-
-**問題**: データベースコマンドが動作しない
-
-**解決方法**:
-1. `.npmrc` に `node-linker=hoisted` が設定されているか確認
-2. `pnpm install` を再実行
-3. `pnpm rebuild better-sqlite3` を実行
-
-### パッケージマネージャーの変更
-
-pnpm から npm/yarn に変更する場合：
-
-```bash
-# pnpmの痕跡を削除
-rm -rf node_modules pnpm-lock.yaml .npmrc
-
-# 新しいパッケージマネージャーで再インストール
-npm install
-# または
-yarn install
 ```
