@@ -18,4 +18,3 @@ export const PRIORITY_OPTIONS: { value: TaskPriority; label: string }[] =
     value: priority,
     label: PRIORITY_LABELS[priority],
   }));
-

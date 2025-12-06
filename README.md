@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/8913f6a4-5766-44fd-b5e2-3e2d35e1465f
 
 ### 前提条件
 
-- **Node.js** 23.10.0
+- **Node.js** 24.11.1
 - **pnpm**（推奨）またはnpm/yarn/bun
 
 ### 1️⃣ 依存関係のインストール
