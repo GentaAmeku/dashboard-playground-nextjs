@@ -9,7 +9,7 @@ import type { Task } from "@/lib/db/schema";
 import { createTaskSchema } from "@/lib/db/schema";
 import { taskService } from "@/lib/db/services/task-service";
 import { validationError, zodErrorToAppError } from "@/lib/errors";
-import { err, isErr, ok, type Result } from "@/lib/result";
+import { err, isErr, type Result } from "@/lib/result";
 
 const updateTasksCache = () => {
   updateTag(CACHE_TAGS.TASKS);
@@ -22,16 +22,14 @@ export const getTasks = async (
   "use cache";
   cacheTag(CACHE_TAGS.TASKS);
   const result = await taskService.getTasksByQuery(query);
-  if (isErr(result)) return result;
-  return ok(result.value);
+  return result;
 };
 
 export const getTaskById = async (id: number): Promise<Result<Task>> => {
   "use cache";
   cacheTag(CACHE_TAGS.TASKS);
   const result = await taskService.getTask(id);
-  if (isErr(result)) return result;
-  return ok(result.value);
+  return result;
 };
 
 export const createTask = async (
@@ -52,9 +50,7 @@ export const createTask = async (
   }
 
   const taskResult = await taskService.createTask(parseResult.data);
-  if (isErr(taskResult)) {
-    return err(taskResult.error);
-  }
+  if (isErr(taskResult)) return taskResult;
 
   updateTasksCache();
   redirect("/tasks");
@@ -67,9 +63,7 @@ export const updateTask = async (
   const idStr = formData.get("id") as string;
   const id = Number.parseInt(idStr, 10);
 
-  if (Number.isNaN(id)) {
-    return err(validationError("Invalid task ID", ["id"]));
-  }
+  if (Number.isNaN(id)) return err(validationError("Invalid task ID", ["id"]));
 
   const data = {
     name: formData.get("name") as string,
@@ -85,9 +79,7 @@ export const updateTask = async (
   }
 
   const taskResult = await taskService.updateTask(id, parseResult.data);
-  if (isErr(taskResult)) {
-    return err(taskResult.error);
-  }
+  if (isErr(taskResult)) return taskResult;
 
   updateTasksCache();
   redirect("/tasks");
@@ -95,8 +87,6 @@ export const updateTask = async (
 
 export const deleteTask = async (id: number) => {
   const result = await taskService.deleteTask(id);
-  if (isErr(result)) {
-    return err(result.error);
-  }
+  if (isErr(result)) return result;
   updateTasksCache();
 };

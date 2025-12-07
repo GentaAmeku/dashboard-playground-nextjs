@@ -9,8 +9,7 @@ export const getTotalTaskCount = async (): Promise<Result<number>> => {
   "use cache";
   cacheTag(CACHE_TAGS.DASHBOARD);
   const result = await taskService.getTotalCount();
-  if (isErr(result)) return result;
-  return ok(result.value);
+  return result;
 };
 
 export const getStatusCounts = async (): Promise<
@@ -19,8 +18,7 @@ export const getStatusCounts = async (): Promise<
   "use cache";
   cacheTag(CACHE_TAGS.DASHBOARD);
   const result = await taskService.getStatusCounts();
-  if (isErr(result)) return result;
-  return ok(result.value);
+  return result;
 };
 
 export const getPriorityCounts = async (): Promise<
@@ -29,14 +27,12 @@ export const getPriorityCounts = async (): Promise<
   "use cache";
   cacheTag(CACHE_TAGS.DASHBOARD);
   const result = await taskService.getPriorityCounts();
-  if (isErr(result)) return result;
-  return ok(result.value);
+  return result;
 };
 
 export const getCompletedTaskCount = async (): Promise<Result<number>> => {
   "use cache";
   cacheTag(CACHE_TAGS.DASHBOARD);
   const result = await taskService.getCompletedCount();
-  if (isErr(result)) return result;
-  return ok(result.value);
+  return result;
 };
