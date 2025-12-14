@@ -45,9 +45,9 @@ export const validateTaskInsert = (
 export const validateTaskName = (name: unknown): Result<string, AppError> => {
   const result = z
     .string()
+    .trim()
     .min(1, "Name is required")
     .max(200, "Name must be 200 characters or less")
-    .trim()
     .safeParse(name);
 
   if (!result.success) {

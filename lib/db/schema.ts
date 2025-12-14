@@ -66,13 +66,13 @@ export const tasks = sqliteTable("tasks", {
 export const insertTaskSchema = createInsertSchema(tasks, {
   name: z
     .string()
+    .trim()
     .min(1, "Name is required")
-    .max(200, "Name must be 200 characters or less")
-    .trim(),
+    .max(200, "Name must be 200 characters or less"),
   description: z
     .string()
-    .max(1000, "Description must be 1000 characters or less")
     .trim()
+    .max(1000, "Description must be 1000 characters or less")
     .optional()
     .nullable(),
   status: z.enum([
