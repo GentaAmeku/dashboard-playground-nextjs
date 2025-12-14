@@ -99,12 +99,24 @@ pnpm dev
 
 ブラウザで [http://localhost:3000](http://localhost:3000) を開いてアプリケーションを確認できます。
 
+## 🧪 テスト
+
+```bash
+# 単体テスト（CLI）
+pnpm test
+
+# 単体テスト（UI）
+pnpm run test:ui
+```
+
 ## 📝 利用可能なスクリプト
 
 - `pnpm dev` - 🚀 開発サーバーを起動
 - `pnpm build` - 📦 本番用ビルド
 - `pnpm start` - ▶️ 本番サーバーを起動
 - `pnpm lint` - 🔍 リンターを実行
+- `pnpm test` - 🧪 単体テストを実行（CLI）
+- `pnpm run test:ui` - 🧪 単体テストを実行（UI）
 - `pnpm format` - ✨ コードをフォーマット
 - `pnpm db:push` - 🗄️ スキーマから直接データベースを更新（開発環境推奨）
 - `pnpm db:generate` - 📄 マイグレーションファイルを生成

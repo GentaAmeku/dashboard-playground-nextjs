@@ -3,7 +3,7 @@
 import { cacheTag } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache/tags";
 import { taskService } from "@/lib/db/services/task-service";
-import { isErr, ok, type Result } from "@/lib/result";
+import type { Result } from "@/lib/result";
 
 export const getTotalTaskCount = async (): Promise<Result<number>> => {
   "use cache";
