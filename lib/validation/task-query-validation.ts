@@ -18,7 +18,7 @@ export const taskQuerySchema = z.object({
 
 export type TaskQuery = z.infer<typeof taskQuerySchema>;
 
-export const validateTaskQuery = (data: unknown) => {
+export const validateTaskQuery = (data: TaskQuery) => {
   const result = taskQuerySchema.safeParse(data);
 
   if (!result.success) {

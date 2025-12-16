@@ -8,7 +8,9 @@ import {
 import { type AppError, zodErrorToAppError } from "@/lib/errors";
 import { err, ok, type Result } from "@/lib/result";
 
-export const validateTaskData = (data: unknown): Result<NewTask, AppError> => {
+export const validateTaskData = (
+  data: Partial<NewTask>,
+): Result<NewTask, AppError> => {
   const result = createTaskSchema.safeParse(data);
 
   if (!result.success) {

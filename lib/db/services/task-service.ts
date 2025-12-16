@@ -1,7 +1,10 @@
 import { taskRepository } from "@/lib/db/repositories/task-repository";
 import type { NewTask } from "@/lib/db/schema";
 import { isErr } from "@/lib/result";
-import { validateTaskQuery } from "@/lib/validation/task-query-validation";
+import {
+  TaskQuery,
+  validateTaskQuery,
+} from "@/lib/validation/task-query-validation";
 import {
   validateTaskData,
   validateTaskUpdate,
@@ -18,7 +21,7 @@ export const taskService = {
 
   getAllTasks: () => taskRepository.getAll(),
 
-  getTasksByQuery: async (query: unknown) => {
+  getTasksByQuery: async (query: TaskQuery) => {
     const validationResult = validateTaskQuery(query);
     if (isErr(validationResult)) return validationResult;
     return taskRepository.getByQuery(validationResult.value);
