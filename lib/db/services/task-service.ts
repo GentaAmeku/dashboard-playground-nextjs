@@ -2,7 +2,7 @@ import { taskRepository } from "@/lib/db/repositories/task-repository";
 import type { NewTask } from "@/lib/db/schema";
 import { isErr } from "@/lib/result";
 import {
-  TaskQuery,
+  type TaskQuery,
   validateTaskQuery,
 } from "@/lib/validation/task-query-validation";
 import {
