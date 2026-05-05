@@ -4,6 +4,7 @@
 
 ## ✨ 主な機能
 
+- 🔐 Google アカウントによる認証（未ログイン時はログイン画面へリダイレクト）
 - 📈 タスク統計情報の表示（総数、ステータス別、優先度別、完了率）
 - ✏️ タスクの作成、編集、削除
 - 🔍 タスクの検索とフィルタリング
@@ -21,6 +22,10 @@ https://github.com/user-attachments/assets/6cddd292-cd2a-4ae4-9db5-8210b4bd98f7
 - **TypeScript**
 - **Tailwind CSS 4**
 - **shadcn/ui**
+
+### 認証
+
+- **Better Auth** - Google OAuth 認証・セッション管理
 
 ### バックエンド・データベース
 
@@ -46,6 +51,7 @@ https://github.com/user-attachments/assets/6cddd292-cd2a-4ae4-9db5-8210b4bd98f7
 
 - **Node.js** 24.11.1
 - **pnpm**（推奨）またはnpm/yarn/bun
+- **Google Cloud Console** のアカウント（OAuth クライアント作成に必要）
 
 ### 1️⃣ 依存関係のインストール
 
@@ -53,35 +59,54 @@ https://github.com/user-attachments/assets/6cddd292-cd2a-4ae4-9db5-8210b4bd98f7
 pnpm install
 ```
 
-### 2️⃣ データベースのセットアップ
+### 2️⃣ 環境変数の設定
 
-#### 💻 Cursorを使用している場合
+`.env.example` をコピーして `.env.local` を作成し、各値を設定します。
 
-Cursorを使用している場合は、カスタムコマンドを利用できます：
+```bash
+cp .env.example .env.local
+```
 
-**プロジェクト全体の初期セットアップ**には、次のカスタムコマンドが利用できます：
+| 変数名 | 説明 |
+|---|---|
+| `BETTER_AUTH_SECRET` | セッション署名用シークレット（`openssl rand -base64 32` で生成） |
+| `BETTER_AUTH_URL` | アプリの URL（開発環境: `http://localhost:3000`） |
+| `NEXT_PUBLIC_BETTER_AUTH_URL` | クライアントから参照する URL（同上） |
+| `GOOGLE_CLIENT_ID` | Google Cloud Console で発行した Client ID |
+| `GOOGLE_CLIENT_SECRET` | Google Cloud Console で発行した Client Secret |
 
-- `/init`  
-  依存関係のインストール、データベースのセットアップ、開発サーバーの起動までの流れをガイドします。  
-  詳細は [`.cursor/commands/init.md`](.cursor/commands/init.md) を参照してください。
+#### Google Cloud Console の設定
 
-- `/db-setup`  
-  データベースのセットアップを行います（開発環境向け）。  
-  詳細は [`.cursor/commands/db-setup.md`](.cursor/commands/db-setup.md) を参照してください。データベースの再セットアップも可能です。
+1. [Google Cloud Console](https://console.cloud.google.com/) で OAuth 2.0 クライアント ID を作成
+2. **承認済みのリダイレクト URI** に以下を追加:
+   ```
+   http://localhost:3000/api/auth/callback/google
+   ```
+3. 発行された Client ID / Client Secret を `.env.local` に貼り付け
+
+### 3️⃣ データベースのセットアップ
+
+#### 💻 Claude Code / Cursor を使用している場合
+
+カスタムコマンドが利用できます：
+
+- `/init` — Node.js・pnpm の確認、依存関係のインストールまで自動実行
+- `/db-setup` — データベースのセットアップ（`pnpm db:push` + `pnpm db:seed`）を自動実行
+- `/db-setup reset` — データベースをリセットして再セットアップ
 
 #### 🔧 手動でセットアップする場合
 
-**方法A: `db:push`を使用（開発環境推奨）**
+**方法A: `db:push` を使用（開発環境推奨）**
 
 ```bash
-# 既存データベースをリセットする場合 初回は不要（オプション）
+# 既存データベースをリセットする場合（初回は不要）
 rm -f local.db local.db-shm local.db-wal
 
 # データベースの作成とシードデータの投入
 pnpm db:push && pnpm db:seed
 ```
 
-**方法B: `db:migrate`を使用（本番環境向け）**
+**方法B: `db:migrate` を使用（本番環境向け）**
 
 ```bash
 # 既存データベースをリセットする場合（オプション）
@@ -91,13 +116,13 @@ rm -f local.db local.db-shm local.db-wal
 pnpm db:generate && pnpm db:migrate && pnpm db:seed
 ```
 
-### 3️⃣ 開発サーバーの起動
+### 4️⃣ 開発サーバーの起動
 
 ```bash
 pnpm dev
 ```
 
-ブラウザで [http://localhost:3000](http://localhost:3000) を開いてアプリケーションを確認できます。
+ブラウザで [http://localhost:3000](http://localhost:3000) を開くと、ログイン画面が表示されます。
 
 ## 🧪 テスト
 
@@ -122,26 +147,38 @@ pnpm run test:ui
 - `pnpm db:generate` - 📄 マイグレーションファイルを生成
 - `pnpm db:migrate` - 🔄 マイグレーションを実行
 - `pnpm db:seed` - 🌱 シードデータを投入
-- `pnpm db:studio` - 🎨 Drizzle Studioを起動（データベースGUI）
+- `pnpm db:studio` - 🎨 Drizzle Studio を起動（データベース GUI）
 
 ## 📁 プロジェクト構造
 
 ```
 dashboard-playground-nextjs/
-├── app/                    # Next.js App Router
-│   ├── actions/           # Server Actions
-│   ├── components/         # アプリケーションコンポーネント
-│   ├── tasks/             # タスク関連のページとコンポーネント
-│   └── page.tsx           # ホームページ（ダッシュボード）
+├── app/
+│   ├── (authed)/              # 認証必須ルート
+│   │   ├── layout.tsx         # 認証チェック + サイドバー/ヘッダー
+│   │   ├── page.tsx           # ホームページ（ダッシュボード）
+│   │   ├── components/        # 認証済みページ用コンポーネント
+│   │   │   ├── AppHeader/
+│   │   │   ├── AppSidebar/    # ユーザー情報・ログアウトボタン含む
+│   │   │   ├── PageContainer/
+│   │   │   └── TaskStatistics/
+│   │   └── tasks/             # タスク関連ページとコンポーネント
+│   ├── actions/               # Server Actions
+│   ├── api/auth/[...all]/     # Better Auth ハンドラ
+│   ├── login/                 # ログインページ
+│   └── layout.tsx             # ルートレイアウト（html/body のみ）
 ├── components/
-│   └── ui/                # shadcn/uiコンポーネント
+│   └── ui/                    # shadcn/ui コンポーネント
 ├── lib/
-│   ├── db/                # データベース関連
-│   │   ├── schema.ts      # Drizzleスキーマ
-│   │   ├── repositories/ # リポジトリパターン
-│   │   └── services/      # ビジネスロジック
-│   ├── validation/        # Zodバリデーションスキーマ
-│   └── utils.ts           # ユーティリティ関数
-├── drizzle/               # マイグレーションファイル
-└── scripts/               # スクリプト（シードなど）
+│   ├── auth.ts                # Better Auth サーバー設定
+│   ├── auth-client.ts         # Better Auth クライアント設定
+│   ├── db/                    # データベース関連
+│   │   ├── schema.ts          # Drizzle スキーマ（tasks + auth テーブル）
+│   │   ├── repositories/      # リポジトリパターン
+│   │   └── services/          # ビジネスロジック
+│   ├── validation/            # Zod バリデーションスキーマ
+│   └── utils.ts               # ユーティリティ関数
+├── proxy.ts                   # ルート保護（未認証時に /login へリダイレクト）
+├── drizzle/                   # マイグレーションファイル
+└── scripts/                   # スクリプト（シードなど）
 ```

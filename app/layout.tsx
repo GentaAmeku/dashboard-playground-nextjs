@@ -6,10 +6,6 @@ import {
   Playfair_Display,
 } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import AppHeader from "@/app/components/AppHeader";
-import AppSidebar from "@/app/components/AppSidebar";
-import PageContainer from "@/app/components/PageContainer";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -53,13 +49,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NuqsAdapter defaultOptions={{ shallow: false }}>
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full">
-              <AppHeader />
-              <PageContainer>{children}</PageContainer>
-            </main>
-          </SidebarProvider>
+          {children}
         </NuqsAdapter>
       </body>
     </html>
