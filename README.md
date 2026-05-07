@@ -182,3 +182,11 @@ dashboard-playground-nextjs/
 ├── drizzle/                   # マイグレーションファイル
 └── scripts/                   # スクリプト（シードなど）
 ```
+
+## 📚 研修教材として使う場合
+
+このリポジトリを題材にした新人フロントエンドエンジニア向けのハンズオン研修手順書があります。
+
+→ **[docs/training/README.md](./docs/training/README.md)**
+
+Next.js の基礎から認証・キャッシュ・テストまで、全 14 章・約 16〜20 時間で本リポジトリをゼロから再実装できます。
