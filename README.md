@@ -185,7 +185,7 @@ dashboard-playground-nextjs/
 
 ## 📚 研修教材として使う場合
 
-このリポジトリを題材にした新人フロントエンドエンジニア向けのハンズオン研修手順書があります。
+このリポジトリを題材にしたフロントエンドエンジニア向けのハンズオン研修手順書があります。
 
 → **[docs/training/README.md](./docs/training/README.md)**
 
