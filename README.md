@@ -50,16 +50,34 @@ https://github.com/user-attachments/assets/6cddd292-cd2a-4ae4-9db5-8210b4bd98f7
 ### 前提条件
 
 - **Node.js** 24.11.1
-- **pnpm**（推奨）またはnpm/yarn/bun
+- **pnpm**
 - **Google Cloud Console** のアカウント（OAuth クライアント作成に必要）
 
-### 1️⃣ 依存関係のインストール
+### 1️⃣ 自動セットアップ（Claude Code / Cursor）
+
+カスタムコマンドを使うと、依存関係のインストール、設定ファイルの確認、DB セットアップ、lint 確認までまとめて実行できます。
+
+```text
+/setup
+```
+
+`/setup` の途中で `.env.local` が未作成の場合は、`.env.example` からコピーして Google OAuth の値を設定してから続行してください。
+
+DB だけを作り直したい場合は、以下のコマンドを使います。
+
+```text
+/db-setup reset
+```
+
+### 2️⃣ 手動でセットアップする場合
+
+#### 依存関係のインストール
 
 ```bash
 pnpm install
 ```
 
-### 2️⃣ 環境変数の設定
+#### 環境変数の設定
 
 `.env.example` をコピーして `.env.local` を作成し、各値を設定します。
 
@@ -84,17 +102,7 @@ cp .env.example .env.local
    ```
 3. 発行された Client ID / Client Secret を `.env.local` に貼り付け
 
-### 3️⃣ データベースのセットアップ
-
-#### 💻 Claude Code / Cursor を使用している場合
-
-カスタムコマンドが利用できます：
-
-- `/init` — Node.js・pnpm の確認、依存関係のインストールまで自動実行
-- `/db-setup` — データベースのセットアップ（`pnpm db:push` + `pnpm db:seed`）を自動実行
-- `/db-setup reset` — データベースをリセットして再セットアップ
-
-#### 🔧 手動でセットアップする場合
+#### データベースのセットアップ
 
 **方法A: `db:push` を使用（開発環境推奨）**
 
@@ -116,7 +124,7 @@ rm -f local.db local.db-shm local.db-wal
 pnpm db:generate && pnpm db:migrate && pnpm db:seed
 ```
 
-### 4️⃣ 開発サーバーの起動
+### 3️⃣ 開発サーバーの起動
 
 ```bash
 pnpm dev
