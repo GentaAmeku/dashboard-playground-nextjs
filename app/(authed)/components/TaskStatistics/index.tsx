@@ -45,7 +45,9 @@ function StatusCountsSkeleton() {
 
 export default function TaskStatistics() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    // 参照レイアウトに合わせ、固定ブレークポイントではなく auto-fit の流動グリッドに。
+    // 各カード最小 220px・gap 16px。中間幅では 3 列などに滑らかに追従する。
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
       <Suspense fallback={<CardSkeleton />}>
         <TotalTaskCount />
       </Suspense>

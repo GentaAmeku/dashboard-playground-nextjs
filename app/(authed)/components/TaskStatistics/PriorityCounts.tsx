@@ -40,10 +40,10 @@ export default async function PriorityCounts() {
               key={priority}
               className="flex items-center justify-between text-sm"
             >
-              <span className="text-muted-foreground">
+              <span className="whitespace-nowrap text-muted-foreground">
                 {PRIORITY_LABELS[priority]}
               </span>
-              <span className="font-semibold">
+              <span className="font-semibold tabular-nums">
                 {result.value[priority] ?? 0}
               </span>
             </div>

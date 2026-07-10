@@ -40,10 +40,12 @@ export default async function StatusCounts() {
               key={status}
               className="flex items-center justify-between text-sm"
             >
-              <span className="text-muted-foreground">
+              <span className="whitespace-nowrap text-muted-foreground">
                 {STATUS_LABELS[status]}
               </span>
-              <span className="font-semibold">{result.value[status] ?? 0}</span>
+              <span className="font-semibold tabular-nums">
+                {result.value[status] ?? 0}
+              </span>
             </div>
           ))}
         </div>
