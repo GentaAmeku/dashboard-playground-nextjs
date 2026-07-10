@@ -1,28 +1,25 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Noto_Sans,
-  Playfair_Display,
-} from "next/font/google";
+import { Geist_Mono, Hanken_Grotesk, Newsreader } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { THEME_IDS } from "@/lib/constants/themes";
 import { cn } from "@/lib/utils";
 
-const playfairDisplayHeading = Playfair_Display({
+// 見出し・カードタイトル・統計の大きな数字に使う編集的なセリフ体。
+// --font-heading を参照する card / dialog / sheet のタイトルに反映される。
+const newsreaderHeading = Newsreader({
   subsets: ["latin"],
   variable: "--font-heading",
 });
 
-const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// 本文・UI テキスト用のヒューマニスト・グロテスク体。--font-sans を担う。
+const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
+// タスク ID・日時などの等幅表示。--font-mono（globals.css）が参照する。
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -44,13 +41,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         "font-sans",
-        notoSans.variable,
-        playfairDisplayHeading.variable,
+        hankenGrotesk.variable,
+        newsreaderHeading.variable,
       )}
     >
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistMono.variable} antialiased`}>
         {/*
          * ThemeProvider: next-themes が提供するテーマ管理コンテキスト。
          *

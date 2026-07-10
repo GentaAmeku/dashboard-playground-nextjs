@@ -44,6 +44,25 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* brass（真鍮）アクセント。bg-brass / text-brass などで参照する */
+  --color-brass: var(--brass);
+  --color-brass-foreground: var(--brass-foreground);
+  /*
+   * ステータス・優先度のセマンティックカラー。
+   * StatusBadge / PriorityBadge などで text-status-completed / bg-status-completed-bg のように使う。
+   * -bg サフィックスはバッジ背景用の淡いトーン。
+   */
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-bg: var(--status-pending-bg);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-in-progress-bg: var(--status-in-progress-bg);
+  --color-status-completed: var(--status-completed);
+  --color-status-completed-bg: var(--status-completed-bg);
+  --color-status-cancelled: var(--status-cancelled);
+  --color-status-cancelled-bg: var(--status-cancelled-bg);
+  --color-priority-low: var(--priority-low);
+  --color-priority-medium: var(--priority-medium);
+  --color-priority-high: var(--priority-high);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -67,37 +86,73 @@
  */
 :root {
   --radius: 0.625rem;
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.3);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.3);
-  --primary: oklch(0.214 0.009 43.1);
-  --primary-foreground: oklch(0.986 0.002 67.8);
-  --secondary: oklch(0.96 0.002 17.2);
-  --secondary-foreground: oklch(0.214 0.009 43.1);
-  --muted: oklch(0.96 0.002 17.2);
-  --muted-foreground: oklch(0.547 0.021 43.1);
-  --accent: oklch(0.96 0.002 17.2);
-  --accent-foreground: oklch(0.214 0.009 43.1);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0.005 34.3);
-  --input: oklch(0.922 0.005 34.3);
-  --ring: oklch(0.714 0.014 41.2);
-  --chart-1: oklch(0.868 0.007 39.5);
-  --chart-2: oklch(0.547 0.021 43.1);
-  --chart-3: oklch(0.438 0.017 39.3);
-  --chart-4: oklch(0.367 0.016 35.7);
-  --chart-5: oklch(0.268 0.011 36.5);
-  --sidebar: oklch(0.986 0.002 67.8);
-  --sidebar-foreground: oklch(0.147 0.004 49.3);
-  --sidebar-primary: oklch(0.214 0.009 43.1);
-  --sidebar-primary-foreground: oklch(0.986 0.002 67.8);
-  --sidebar-accent: oklch(0.96 0.002 17.2);
-  --sidebar-accent-foreground: oklch(0.214 0.009 43.1);
-  --sidebar-border: oklch(0.922 0.005 34.3);
-  --sidebar-ring: oklch(0.714 0.014 41.2);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.3);
+
+  /* --- 基本サーフェス & テキスト（温かいクリーム紙 + 深いインク） --- */
+  --background: oklch(0.975 0.014 90);
+  --foreground: oklch(0.22 0.02 55);
+  --card: oklch(0.995 0.006 90);
+  --card-foreground: oklch(0.22 0.02 55);
+  --popover: oklch(0.995 0.006 90);
+  --popover-foreground: oklch(0.22 0.02 55);
+
+  /* --- ブランド（深いエメラルド + brass アクセント） --- */
+  --primary: oklch(0.42 0.09 165);
+  --primary-foreground: oklch(0.98 0.01 90);
+  --brass: oklch(0.72 0.11 80);
+  --brass-foreground: oklch(0.24 0.03 70);
+
+  /* --- ニュートラル（温かみのあるストーン系） --- */
+  --secondary: oklch(0.94 0.014 88);
+  --secondary-foreground: oklch(0.3 0.02 60);
+  --muted: oklch(0.945 0.012 88);
+  --muted-foreground: oklch(0.5 0.02 60);
+  --accent: oklch(0.93 0.03 85);
+  --accent-foreground: oklch(0.3 0.03 70);
+
+  /* --- フィードバック（テラコッタの破壊的アクション） --- */
+  --destructive: oklch(0.55 0.17 30);
+  --destructive-foreground: oklch(0.98 0.01 90);
+
+  /* --- 罫線 & フォーカス --- */
+  --border: oklch(0.9 0.012 80);
+  --input: oklch(0.86 0.014 80);
+  --ring: oklch(0.42 0.09 165);
+
+  /* --- チャート（emerald → brass → terracotta 系） --- */
+  --chart-1: oklch(0.5 0.1 160);
+  --chart-2: oklch(0.66 0.13 70);
+  --chart-3: oklch(0.55 0.16 32);
+  --chart-4: oklch(0.42 0.09 165);
+  --chart-5: oklch(0.72 0.11 80);
+
+  /* --- サイドバー（card より少し温かいパネル） --- */
+  --sidebar: oklch(0.965 0.016 88);
+  --sidebar-foreground: oklch(0.24 0.02 55);
+  --sidebar-primary: oklch(0.42 0.09 165);
+  --sidebar-primary-foreground: oklch(0.98 0.01 90);
+  --sidebar-accent: oklch(0.92 0.024 85);
+  --sidebar-accent-foreground: oklch(0.28 0.03 70);
+  --sidebar-border: oklch(0.9 0.012 80);
+  --sidebar-ring: oklch(0.42 0.09 165);
+
+  /*
+   * --- ステータス色 ---
+   * 未着手=stone / 進行中=amber / 完了=emerald / キャンセル=terracotta。
+   * -bg はバッジ背景用の淡いトーン。現行はモノクロ表示だが Warm Luxe で色付けする。
+   */
+  --status-pending: oklch(0.55 0.02 70);
+  --status-pending-bg: oklch(0.95 0.012 80);
+  --status-in-progress: oklch(0.62 0.13 70);
+  --status-in-progress-bg: oklch(0.95 0.05 80);
+  --status-completed: oklch(0.48 0.1 160);
+  --status-completed-bg: oklch(0.94 0.04 160);
+  --status-cancelled: oklch(0.55 0.16 32);
+  --status-cancelled-bg: oklch(0.95 0.04 32);
+
+  /* --- 優先度色（低=stone / 中=brass / 高=terracotta） --- */
+  --priority-low: oklch(0.55 0.02 70);
+  --priority-medium: oklch(0.6 0.11 72);
+  --priority-high: oklch(0.55 0.16 32);
 }
 
 /*
@@ -109,37 +164,68 @@
  * Tailwind の dark: バリアントも @custom-variant の定義によって同時に有効になる。
  */
 .dark {
-  --background: oklch(0.147 0.004 49.3);
-  --foreground: oklch(0.986 0.002 67.8);
-  --card: oklch(0.214 0.009 43.1);
-  --card-foreground: oklch(0.986 0.002 67.8);
-  --popover: oklch(0.214 0.009 43.1);
-  --popover-foreground: oklch(0.986 0.002 67.8);
-  --primary: oklch(0.922 0.005 34.3);
-  --primary-foreground: oklch(0.214 0.009 43.1);
-  --secondary: oklch(0.268 0.011 36.5);
-  --secondary-foreground: oklch(0.986 0.002 67.8);
-  --muted: oklch(0.268 0.011 36.5);
-  --muted-foreground: oklch(0.714 0.014 41.2);
-  --accent: oklch(0.268 0.011 36.5);
-  --accent-foreground: oklch(0.986 0.002 67.8);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.547 0.021 43.1);
-  --chart-1: oklch(0.868 0.007 39.5);
-  --chart-2: oklch(0.547 0.021 43.1);
-  --chart-3: oklch(0.438 0.017 39.3);
-  --chart-4: oklch(0.367 0.016 35.7);
-  --chart-5: oklch(0.268 0.011 36.5);
-  --sidebar: oklch(0.214 0.009 43.1);
-  --sidebar-foreground: oklch(0.986 0.002 67.8);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.986 0.002 67.8);
-  --sidebar-accent: oklch(0.268 0.011 36.5);
-  --sidebar-accent-foreground: oklch(0.986 0.002 67.8);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.547 0.021 43.1);
+  /* --- 基本サーフェス & テキスト（深いフォレスト・チャコール） --- */
+  --background: oklch(0.19 0.014 160);
+  --foreground: oklch(0.94 0.012 90);
+  --card: oklch(0.23 0.016 160);
+  --card-foreground: oklch(0.94 0.012 90);
+  --popover: oklch(0.23 0.016 160);
+  --popover-foreground: oklch(0.94 0.012 90);
+
+  /* --- ブランド（ライトより明るいエメラルド） --- */
+  --primary: oklch(0.62 0.11 165);
+  --primary-foreground: oklch(0.16 0.02 165);
+  --brass: oklch(0.78 0.12 82);
+  --brass-foreground: oklch(0.18 0.02 70);
+
+  /* --- ニュートラル --- */
+  --secondary: oklch(0.28 0.014 160);
+  --secondary-foreground: oklch(0.94 0.012 90);
+  --muted: oklch(0.28 0.014 160);
+  --muted-foreground: oklch(0.7 0.016 90);
+  --accent: oklch(0.31 0.02 160);
+  --accent-foreground: oklch(0.92 0.012 90);
+
+  /* --- フィードバック --- */
+  --destructive: oklch(0.7 0.15 32);
+  --destructive-foreground: oklch(0.16 0.02 30);
+
+  /* --- 罫線 & フォーカス --- */
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.16);
+  --ring: oklch(0.62 0.11 165);
+
+  /* --- チャート --- */
+  --chart-1: oklch(0.7 0.11 160);
+  --chart-2: oklch(0.78 0.13 75);
+  --chart-3: oklch(0.7 0.15 35);
+  --chart-4: oklch(0.62 0.11 165);
+  --chart-5: oklch(0.78 0.12 82);
+
+  /* --- サイドバー --- */
+  --sidebar: oklch(0.21 0.015 160);
+  --sidebar-foreground: oklch(0.94 0.012 90);
+  --sidebar-primary: oklch(0.62 0.11 165);
+  --sidebar-primary-foreground: oklch(0.16 0.02 165);
+  --sidebar-accent: oklch(0.31 0.02 160);
+  --sidebar-accent-foreground: oklch(0.92 0.012 90);
+  --sidebar-border: oklch(1 0 0 / 0.1);
+  --sidebar-ring: oklch(0.62 0.11 165);
+
+  /* --- ステータス色（ダーク用に彩度・明度を調整） --- */
+  --status-pending: oklch(0.72 0.02 70);
+  --status-pending-bg: oklch(0.3 0.012 80);
+  --status-in-progress: oklch(0.8 0.13 75);
+  --status-in-progress-bg: oklch(0.32 0.05 75);
+  --status-completed: oklch(0.72 0.11 160);
+  --status-completed-bg: oklch(0.3 0.04 160);
+  --status-cancelled: oklch(0.72 0.15 35);
+  --status-cancelled-bg: oklch(0.32 0.05 35);
+
+  /* --- 優先度色 --- */
+  --priority-low: oklch(0.72 0.02 70);
+  --priority-medium: oklch(0.78 0.12 74);
+  --priority-high: oklch(0.72 0.15 35);
 }
 
 /*
