@@ -183,6 +183,20 @@ export const THEMES: ThemeDef[] = [
 - `enableSystem={false}` — OS のダークモード設定への自動追従を無効にしている。明示的に選択する仕様にするため。
 - `disableTransitionOnChange` — テーマ切替の瞬間だけ CSS transition を無効にしてチカチカを防ぐ。
 
+## デザインシステム連携（Claude Design）
+
+本アプリのビジュアルは Claude Design のデザインシステムプロジェクトを正準とする。見た目の刷新は、そこで作ったトークン／コンポーネントを参照して移植する（**データ・機能・情報設計・DB は変更しない**、見た目だけ）。
+
+- **対象プロジェクト**: `Taskflow Design System`（Claude Design）。projectId: `435b7603-ff44-41a9-b476-27a1eae50fb2`。方向性は **"Warm Luxe"**（クリーム地 + 深いエメラルド + brass + terracotta。見出し Newsreader / 本文 Hanken Grotesk / モノ Geist Mono）。
+- **接続方法**: `DesignSync` ツールで読み書きする。初回はデザインスコープの認可が必要で、**対話型ターミナルの `claude` で `/design-login` を実行**して認可する（非対話セッションからは認可できない）。認可後は `list_projects` → `list_files` → `get_file` で参照する。
+- **移植フェーズ**:
+  1. **トークン**（配色・フォント）→ `app/globals.css` / `app/layout.tsx`。**完了・マージ済み**。
+  2. **コンポーネント**（`components/data/` の StatusBadge / PriorityBadge など）→ ステータス／優先度の色付け。`--status-*` / `--priority-*` トークンは globals.css に定義済み。
+  3. **画面**（`ui_kits/dashboard/` を参照レイアウトとして）。
+- **注意点**:
+  - Tailwind v4 の `@theme` / CSS 変数を変更したら、dev サーバーは **`.next` を丸ごと削除して再起動**しないと反映されないことがある（`.next/cache` クリアだけでは不十分）。
+  - 認証後画面（ダッシュボード等）の目視確認は Google OAuth のセッションが必要。プレビュー用ブラウザは外部 OAuth をブロックするため、**ログイン済みの実 Chrome を Chrome 拡張（claude-in-chrome）経由で参照**する。
+
 ## コードスタイル
 
 - Biome でフォーマット・lint を統一（インデント 2 スペース、import 自動整列）
