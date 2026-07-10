@@ -33,7 +33,10 @@ export default async function TotalTaskCount() {
         <CardDescription>すべてのタスクの合計</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="text-3xl font-bold">{result.value}</div>
+        {/* 参照の bigNum スタイル: 見出しセリフ・行間詰め・字間タイト */}
+        <div className="font-heading text-3xl font-bold leading-none tracking-[-0.02em]">
+          {result.value}
+        </div>
       </CardContent>
     </Card>
   );
